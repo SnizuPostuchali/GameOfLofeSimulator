@@ -2,6 +2,8 @@
 package com.mycompany.gameoflifesimulator.gol;
 
 import com.mycompany.gameoflifesimulator.gol.model.*;
+import com.mycompany.gameoflifesimulator.gol.viewModel.ApplicationState;
+import com.mycompany.gameoflifesimulator.gol.viewModel.ApplicationViewModel;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.*;
 import javafx.scene.input.*;
@@ -12,9 +14,6 @@ import javafx.scene.transform.*;
 
 public class MainView extends VBox{
     
-    public static final int EDITING = 0;
-    public static final int SIMULATING = 1;
-    
     private InfoBar infoBar;
     private Canvas canvas;
     
@@ -24,10 +23,15 @@ public class MainView extends VBox{
     private Board initialBoard;
     
     private CellState drawMode = CellState.ALIVE;
+
+    private ApplicationViewModel appViewModel;
+
+    private boolean isDrawingEnabled = true;
+    private boolean drawInitialBoard = true;
     
-    private int applicationState = EDITING;
-    
-    public MainView() {
+    public MainView(ApplicationViewModel appViewModel) {
+        this.appViewModel = appViewModel;
+        this.appViewModel.listenToAppState(this::onApplicationStateChanged);
         
         this.canvas = new Canvas(400, 400);
         this.canvas.setOnMousePressed(this::handleDraw);
@@ -36,7 +40,7 @@ public class MainView extends VBox{
         
         this.setOnKeyPressed(this::onKeyPressed);
         
-        Toolbar toolbar = new Toolbar(this);
+        Toolbar toolbar = new Toolbar(this, appViewModel);
         
         this.infoBar = new InfoBar();
         this.infoBar.setDrawMode(this.drawMode);
@@ -53,6 +57,19 @@ public class MainView extends VBox{
         this.affine.appendScale(40, 40);
         
         this.initialBoard = new BoundedBoard(10, 10);
+    }
+
+    private void onApplicationStateChanged(ApplicationState state){
+        if(state == ApplicationState.EDITING){
+            this.isDrawingEnabled = true;
+            this.drawInitialBoard = true;
+        } else if(state == ApplicationState.SIMULATING){
+            this.isDrawingEnabled = false;
+            this.drawInitialBoard = false;
+            this.simulation = new Simulation(this.initialBoard, new StandardRule());
+        } else {
+            throw new IllegalArgumentException("Unsupported application state " + state.name());
+        }
     }
     
     
@@ -76,7 +93,7 @@ public class MainView extends VBox{
     
     private void handleDraw(MouseEvent event) {
         
-        if(this.applicationState == SIMULATING){
+        if(!isDrawingEnabled){
             return;
         }
         
@@ -111,7 +128,7 @@ public class MainView extends VBox{
        g.setFill(Color.LIGHTGRAY);
        g.fillRect(0, 0, 400, 400);
        
-       if(this.applicationState == EDITING){
+       if(drawInitialBoard){
            drawSimulation(this.initialBoard);
        } else {
            drawSimulation(this.simulation.getBoard());
@@ -147,21 +164,5 @@ public class MainView extends VBox{
     void setDrawMode(CellState newDrawMode) {
         this.drawMode = newDrawMode;
         this.infoBar.setDrawMode(newDrawMode);
-    }
-    
-    public void setApplicationState(int applicationState){
-        if(applicationState == this.applicationState){
-            return;
-        }
-        if(applicationState == SIMULATING){
-            this.simulation = new Simulation(this.initialBoard, new StandardRule());
-        }
-        
-        this.applicationState = applicationState;
-        System.out.println("Application state: " + this.applicationState);
-    }
-
-    public int getApplicationState() {
-        return applicationState;
     }
 }

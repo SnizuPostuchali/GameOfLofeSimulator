@@ -2,21 +2,20 @@
 package com.mycompany.gameoflifesimulator.gol;
 
 import com.mycompany.gameoflifesimulator.gol.model.*;
+import com.mycompany.gameoflifesimulator.gol.viewModel.ApplicationState;
+import com.mycompany.gameoflifesimulator.gol.viewModel.ApplicationViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 
-/**
- *
- * @author Master
- */
 public class Toolbar extends ToolBar{
     
     private MainView mainView;
-    
+    private ApplicationViewModel applicationViewModel;
     private Simulator simulator;
     
-    public Toolbar(MainView mainView){
+    public Toolbar(MainView mainView, ApplicationViewModel applicationViewModel){
         this.mainView = mainView;
+        this.applicationViewModel = applicationViewModel;
         Button draw = new Button("Draw");
         draw.setOnAction(this::handleDraw);
         Button erase = new Button("Erase");
@@ -51,15 +50,12 @@ public class Toolbar extends ToolBar{
     }
     
     private void switchToSimulatingState(){
-        if(this.mainView.getApplicationState() == MainView.EDITING){
-            this.mainView.setApplicationState(mainView.SIMULATING);
-            this.simulator = new Simulator(this.mainView, this.mainView.getSimulation());
-        }
-        
+        this.applicationViewModel.setCurrentState(ApplicationState.SIMULATING);
+        this.simulator = new Simulator(this.mainView, this.mainView.getSimulation());
     }
 
     private void handleReset(ActionEvent actionEvent) {
-        this.mainView.setApplicationState(mainView.EDITING);
+        this.applicationViewModel.setCurrentState(ApplicationState.EDITING);
         this.simulator = null;
         this.mainView.draw();
     }
