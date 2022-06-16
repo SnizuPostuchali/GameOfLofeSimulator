@@ -4,6 +4,7 @@ package com.mycompany.gameoflifesimulator.gol;
 import com.mycompany.gameoflifesimulator.gol.model.*;
 import com.mycompany.gameoflifesimulator.gol.viewModel.ApplicationState;
 import com.mycompany.gameoflifesimulator.gol.viewModel.ApplicationViewModel;
+import com.mycompany.gameoflifesimulator.gol.viewModel.BoardViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 
@@ -11,11 +12,13 @@ public class Toolbar extends ToolBar{
     
     private MainView mainView;
     private ApplicationViewModel applicationViewModel;
+    private BoardViewModel boardViewModel;
     private Simulator simulator;
     
-    public Toolbar(MainView mainView, ApplicationViewModel applicationViewModel){
+    public Toolbar(MainView mainView, ApplicationViewModel applicationViewModel, BoardViewModel boardViewModel){
         this.mainView = mainView;
         this.applicationViewModel = applicationViewModel;
+        this.boardViewModel = boardViewModel;
         Button draw = new Button("Draw");
         draw.setOnAction(this::handleDraw);
         Button erase = new Button("Erase");
@@ -45,19 +48,18 @@ public class Toolbar extends ToolBar{
     private void handleStep(ActionEvent actionEvent) {
         System.out.println("step");
         switchToSimulatingState();
-        this.mainView.getSimulation().step();
-        this.mainView.draw();
+        this.simulator.doStep();
     }
     
     private void switchToSimulatingState(){
         this.applicationViewModel.setCurrentState(ApplicationState.SIMULATING);
-        this.simulator = new Simulator(this.mainView, this.mainView.getSimulation());
+        Simulation simulation = new Simulation(boardViewModel.setBoard(), new StandardRule());
+        this.simulator = new Simulator(this.boardViewModel, simulation);
     }
 
     private void handleReset(ActionEvent actionEvent) {
         this.applicationViewModel.setCurrentState(ApplicationState.EDITING);
         this.simulator = null;
-        this.mainView.draw();
     }
 
     private void handleStart(ActionEvent actionEvent) {
