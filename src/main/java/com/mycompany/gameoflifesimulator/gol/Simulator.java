@@ -1,9 +1,7 @@
-
 package com.mycompany.gameoflifesimulator.gol;
 
 import com.mycompany.gameoflifesimulator.gol.viewModel.BoardViewModel;
 import javafx.animation.*;
-import javafx.event.ActionEvent;
 import javafx.util.Duration;
 
 public class Simulator {
@@ -18,16 +16,16 @@ public class Simulator {
         this.timeline = new Timeline(new KeyFrame(Duration.millis(500), event -> this.doStep()));
         this.timeline.setCycleCount(Timeline.INDEFINITE);
     }
-    
+
     public void doStep(){
         this.simulation.step();
         this.boardViewModel.setBoard(this.simulation.getBoard());
     }
-    
+
     public void start(){
         this.timeline.play();
     }
-    
+
     public void stop(){
         this.timeline.stop();
     }
