@@ -28,7 +28,7 @@ public class BoardViewModel {
         }
     }
 
-    public Board setBoard() {
+    public Board getBoard() {
         return board;
     }
 }

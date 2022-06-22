@@ -5,4 +5,5 @@ module com.mycompany.gameoflifesimulator {
     exports com.mycompany.gameoflifesimulator.gol;
     exports com.mycompany.gameoflifesimulator;
     exports com.mycompany.gameoflifesimulator.gol.model;
+    exports com.mycompany.gameoflifesimulator.gol.viewModel;
 }
