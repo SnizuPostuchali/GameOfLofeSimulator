@@ -12,18 +12,18 @@ public class Simulation {
         this.simulationBoard = simulationBoard;
         this.simulationRule = simulationRule;
     }
-    
-    
+
+
     public void step(){
-        
+
         Board nextState = simulationBoard.copy();
-        
+
         for (int y = 0; y < simulationBoard.getHeight(); y++) {
             for (int x = 0; x < simulationBoard.getWidth(); x++) {
                 CellState newState = simulationRule.getNextState(x, y, simulationBoard);
                 nextState.setState(x, y, newState);
             }
-        } 
+        }
         this.simulationBoard = nextState;
     }
 
@@ -31,5 +31,5 @@ public class Simulation {
         return simulationBoard;
     }
 
-    
+
 }

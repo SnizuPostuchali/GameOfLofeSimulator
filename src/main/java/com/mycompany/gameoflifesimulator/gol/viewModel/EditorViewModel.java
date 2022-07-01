@@ -2,13 +2,12 @@ package com.mycompany.gameoflifesimulator.gol.viewModel;
 
 import com.mycompany.gameoflifesimulator.gol.model.Board;
 import com.mycompany.gameoflifesimulator.gol.model.CellState;
+import com.mycompany.gameoflifesimulator.gol.util.Property;
 
-import java.util.LinkedList;
-import java.util.List;
 
 public class EditorViewModel {
-    private CellState drawMode = CellState.ALIVE;
-    private List<SimpleChangeListener<CellState>> drawModListeners;
+    private Property<CellState> drawMode = new Property<>(CellState.ALIVE);
+
     private BoardViewModel boardViewModel;
     private Board editorBoard;
     private boolean drawingEnabled = true;
@@ -16,37 +15,25 @@ public class EditorViewModel {
     public EditorViewModel(BoardViewModel boardViewModel, Board initialBoard){
         this.boardViewModel = boardViewModel;
         this.editorBoard = initialBoard;
-        this.drawModListeners = new LinkedList<>();
     }
 
     public void onAppStateChanged(ApplicationState state){
         if(state == ApplicationState.EDITING){
             drawingEnabled = true;
-            this.boardViewModel.setBoard(editorBoard);
+            this.boardViewModel.getBoard().set(editorBoard);
         } else {
             drawingEnabled = false;
         }
     }
 
-    public void listenToDrawMode(SimpleChangeListener<CellState> listener){
-        drawModListeners.add(listener);
-    }
-
-    public void setDrawMode(CellState drawMode){
-        this.drawMode = drawMode;
-        notifyDrawModeListeners();
-    }
-
-    private void notifyDrawModeListeners() {
-        for (SimpleChangeListener<CellState> drawModListener : drawModListeners) {
-            drawModListener.valueChanged(drawMode);
-        }
-    }
-
     public void boardPressed(int simX, int simY) {
         if(drawingEnabled){
-            this.editorBoard.setState(simX, simY,  drawMode);
-            this.boardViewModel.setBoard(this.editorBoard);
+            this.editorBoard.setState(simX, simY,  drawMode.get());
+            this.boardViewModel.getBoard().set(this.editorBoard);
         }
+    }
+
+    public Property<CellState> getDrawMode() {
+        return drawMode;
     }
 }

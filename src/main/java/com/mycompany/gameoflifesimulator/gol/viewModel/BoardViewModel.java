@@ -1,34 +1,18 @@
 package com.mycompany.gameoflifesimulator.gol.viewModel;
 
 import com.mycompany.gameoflifesimulator.gol.model.Board;
+import com.mycompany.gameoflifesimulator.gol.util.Property;
 
-import java.util.LinkedList;
-import java.util.List;
 
 public class BoardViewModel {
-    private Board board;
-    private List<SimpleChangeListener<Board>> boardListeners;
+
+    private Property<Board> board = new Property<>();
 
     public BoardViewModel() {
-        boardListeners = new LinkedList<>();
     }
 
-    public void listenToBoard(SimpleChangeListener<Board> listener){
-        boardListeners.add(listener);
-    }
-
-    public void setBoard(Board board){
-        this.board = board;
-        notifyBoardsListeners();
-    }
-
-    private void notifyBoardsListeners() {
-        for (SimpleChangeListener<Board> boardListener : boardListeners) {
-            boardListener.valueChanged(this.board);
-        }
-    }
-
-    public Board getBoard() {
+    public Property<Board> getBoard(){
         return board;
     }
+
 }

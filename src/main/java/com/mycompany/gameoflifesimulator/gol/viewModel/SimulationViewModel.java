@@ -2,13 +2,11 @@ package com.mycompany.gameoflifesimulator.gol.viewModel;
 
 import com.mycompany.gameoflifesimulator.gol.Simulation;
 import com.mycompany.gameoflifesimulator.gol.model.StandardRule;
-import com.mycompany.gameoflifesimulator.gol.viewModel.BoardViewModel;
 import javafx.animation.*;
 import javafx.util.Duration;
 
 public class SimulationViewModel {
     private Timeline timeline;
-
     private BoardViewModel boardViewModel;
     private Simulation simulation;
 
@@ -20,13 +18,13 @@ public class SimulationViewModel {
 
     public void onAppStateChanged(ApplicationState state){
         if(state == ApplicationState.SIMULATING){
-            this.simulation = new Simulation(boardViewModel.getBoard(), new StandardRule());
+            this.simulation = new Simulation(boardViewModel.getBoard().get(), new StandardRule());
         }
     }
 
     public void doStep(){
         this.simulation.step();
-        this.boardViewModel.setBoard(this.simulation.getBoard());
+        this.boardViewModel.getBoard().set(this.simulation.getBoard());
     }
 
     public void start(){
