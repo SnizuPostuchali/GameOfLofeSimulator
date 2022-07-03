@@ -1,12 +1,14 @@
 package com.mycompany.gameoflifesimulator.gol.viewModel;
 
 import com.mycompany.gameoflifesimulator.gol.model.Board;
+import com.mycompany.gameoflifesimulator.gol.model.CellPosition;
 import com.mycompany.gameoflifesimulator.gol.model.CellState;
 import com.mycompany.gameoflifesimulator.gol.util.Property;
 
 
 public class EditorViewModel {
     private Property<CellState> drawMode = new Property<>(CellState.ALIVE);
+    private Property<CellPosition> cursorPosition = new Property<>();
 
     private BoardViewModel boardViewModel;
     private Board editorBoard;
@@ -26,14 +28,22 @@ public class EditorViewModel {
         }
     }
 
-    public void boardPressed(int simX, int simY) {
+    public void boardPressed(CellPosition cursorPosition) {
         if(drawingEnabled){
-            this.editorBoard.setState(simX, simY,  drawMode.get());
+            this.editorBoard.setState(cursorPosition.getX(), cursorPosition.getY(), drawMode.get());
             this.boardViewModel.getBoard().set(this.editorBoard);
         }
     }
 
     public Property<CellState> getDrawMode() {
         return drawMode;
+    }
+
+    public Property<CellPosition> getCursorPosition() {
+        return cursorPosition;
+    }
+
+    public Board getBoard() {
+        return editorBoard;
     }
 }

@@ -5,6 +5,7 @@ import com.mycompany.gameoflifesimulator.gol.MainView;
 import com.mycompany.gameoflifesimulator.gol.Toolbar;
 import com.mycompany.gameoflifesimulator.gol.model.Board;
 import com.mycompany.gameoflifesimulator.gol.model.BoundedBoard;
+import com.mycompany.gameoflifesimulator.gol.util.event.EventBus;
 import com.mycompany.gameoflifesimulator.gol.view.SimulationCanvas;
 import com.mycompany.gameoflifesimulator.gol.viewModel.*;
 import javafx.application.Application;
@@ -16,19 +17,21 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+        EventBus eventBus = new EventBus();
+
         ApplicationViewModel appViewModel = new ApplicationViewModel();
         BoardViewModel boardViewModel = new BoardViewModel();
         Board board = new BoundedBoard(20, 12);
         EditorViewModel editorViewModel = new EditorViewModel(boardViewModel, board);
-        SimulationViewModel simulationViewModel = new SimulationViewModel(boardViewModel);
+        SimulationViewModel simulationViewModel = new SimulationViewModel(boardViewModel, appViewModel, editorViewModel);
+        eventBus.listenFor(SimulatorEvent.class, simulationViewModel::handle);
 
         appViewModel.getApplicationState().listen(editorViewModel::onAppStateChanged);
-        appViewModel.getApplicationState().listen(simulationViewModel::onAppStateChanged);
 
         boardViewModel.getBoard().set(board);
 
         SimulationCanvas simulationCanvas = new SimulationCanvas(editorViewModel, boardViewModel);
-        Toolbar toolbar = new Toolbar(editorViewModel, appViewModel, simulationViewModel);
+        Toolbar toolbar = new Toolbar(editorViewModel, eventBus);
 
         InfoBar infoBar = new InfoBar(editorViewModel);
 

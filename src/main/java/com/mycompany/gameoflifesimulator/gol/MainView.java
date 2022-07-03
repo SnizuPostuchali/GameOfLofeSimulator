@@ -13,7 +13,6 @@ public class MainView extends BorderPane{
 
     public MainView(EditorViewModel editorViewModel) {
         this.editorViewModel = editorViewModel;
-//        this.canvas.setOnMouseMoved(this::handleMoved);
         this.setOnKeyPressed(this::onKeyPressed);
     }
 
@@ -27,9 +26,4 @@ public class MainView extends BorderPane{
             System.out.println("erase Mode");
         }
     }
-
-//    private void handleMoved(MouseEvent mouseEvent){
-//        Point2D simCoord = this.getSimulationCoordinates(mouseEvent);
-//        this.infoBar.setCursorPosition((int)simCoord.getX(), (int)simCoord.getY());
-//    }
 }

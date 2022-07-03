@@ -1,6 +1,5 @@
 package com.mycompany.gameoflifesimulator.gol.util;
 
-import com.mycompany.gameoflifesimulator.gol.viewModel.ApplicationState;
 import com.mycompany.gameoflifesimulator.gol.viewModel.SimpleChangeListener;
 
 import java.util.LinkedList;
@@ -30,6 +29,10 @@ public class Property<T> {
 
     public T get(){
         return this.value;
+    }
+
+    public boolean isPresent(){
+        return value != null;
     }
 
     private void notifyListeners() {
