@@ -3,6 +3,8 @@ package com.mycompany.gameoflifesimulator.gol.view;
 import com.mycompany.gameoflifesimulator.gol.model.Board;
 import com.mycompany.gameoflifesimulator.gol.model.CellPosition;
 import com.mycompany.gameoflifesimulator.gol.model.CellState;
+import com.mycompany.gameoflifesimulator.gol.util.event.EventBus;
+import com.mycompany.gameoflifesimulator.gol.viewModel.BoardEvent;
 import com.mycompany.gameoflifesimulator.gol.viewModel.BoardViewModel;
 import com.mycompany.gameoflifesimulator.gol.viewModel.EditorViewModel;
 import javafx.geometry.Point2D;
@@ -20,10 +22,12 @@ public class SimulationCanvas extends Pane {
     private Affine affine;
     private EditorViewModel editorViewModel;
     private BoardViewModel boardViewModel;
+    private EventBus eventBus;
 
-    public SimulationCanvas(EditorViewModel editorViewModel, BoardViewModel boardViewModel) {
+    public SimulationCanvas(EditorViewModel editorViewModel, BoardViewModel boardViewModel, EventBus eventBus) {
         this.editorViewModel = editorViewModel;
         this.boardViewModel = boardViewModel;
+        this.eventBus = eventBus;
         boardViewModel.getBoard().listen(this::draw);
         editorViewModel.getCursorPosition().listen(cellPosition -> draw(boardViewModel.getBoard().get()));
 
@@ -43,7 +47,8 @@ public class SimulationCanvas extends Pane {
 
     private void handleMouseMoved(MouseEvent event) {
         CellPosition cursorPosition = this.getSimulationCoordinates(event);
-        this.editorViewModel.getCursorPosition().set(cursorPosition);
+        BoardEvent boardEvent = new BoardEvent(BoardEvent.Type.CURSOR_MOVED, cursorPosition);
+        eventBus.emit(boardEvent);
     }
 
     @Override
@@ -54,7 +59,8 @@ public class SimulationCanvas extends Pane {
 
     private void handleDraw(MouseEvent event) {
         CellPosition cursorPosition = this.getSimulationCoordinates(event);
-        this.editorViewModel.boardPressed(cursorPosition);
+        BoardEvent boardEvent = new BoardEvent(BoardEvent.Type.PRESSED, cursorPosition);
+        eventBus.emit(boardEvent);
     }
 
 

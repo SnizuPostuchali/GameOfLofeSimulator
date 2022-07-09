@@ -10,10 +10,8 @@ public class Toolbar extends ToolBar{
 
 
     private EventBus eventBus;
-    private EditorViewModel editorViewModel;
 
-    public Toolbar(EditorViewModel editorViewModel, EventBus eventBus){
-        this.editorViewModel = editorViewModel;
+    public Toolbar(EventBus eventBus){
         this.eventBus = eventBus;
         Button draw = new Button("Draw");
         draw.setOnAction(this::handleDraw);
@@ -33,13 +31,12 @@ public class Toolbar extends ToolBar{
 
     private void handleDraw(ActionEvent actionEvent) {
         System.out.println("draw");
-        this.editorViewModel.getDrawMode().set(CellState.ALIVE);
+        this.eventBus.emit(new DrawModeEvent(CellState.ALIVE));
     }
 
     private void handleErase(ActionEvent actionEvent) {
         System.out.println("erase");
-        //this.simulator.stop();
-        this.editorViewModel.getDrawMode().set(CellState.DEAD);
+        this.eventBus.emit(new DrawModeEvent(CellState.DEAD));
     }
 
     private void handleStep(ActionEvent actionEvent) {
