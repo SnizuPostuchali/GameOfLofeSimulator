@@ -4,9 +4,8 @@ import com.mycompany.gameoflifesimulator.gol.model.Board;
 import com.mycompany.gameoflifesimulator.gol.model.CellPosition;
 import com.mycompany.gameoflifesimulator.gol.model.CellState;
 import com.mycompany.gameoflifesimulator.gol.util.event.EventBus;
-import com.mycompany.gameoflifesimulator.gol.viewModel.BoardEvent;
+import com.mycompany.gameoflifesimulator.gol.logic.BoardEvent;
 import com.mycompany.gameoflifesimulator.gol.viewModel.BoardViewModel;
-import com.mycompany.gameoflifesimulator.gol.viewModel.EditorViewModel;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -20,16 +19,14 @@ public class SimulationCanvas extends Pane {
 
     private Canvas canvas;
     private Affine affine;
-    private EditorViewModel editorViewModel;
     private BoardViewModel boardViewModel;
     private EventBus eventBus;
 
-    public SimulationCanvas(EditorViewModel editorViewModel, BoardViewModel boardViewModel, EventBus eventBus) {
-        this.editorViewModel = editorViewModel;
+    public SimulationCanvas(BoardViewModel boardViewModel, EventBus eventBus) {
         this.boardViewModel = boardViewModel;
         this.eventBus = eventBus;
         boardViewModel.getBoard().listen(this::draw);
-        editorViewModel.getCursorPosition().listen(cellPosition -> draw(boardViewModel.getBoard().get()));
+        boardViewModel.getCursorPosition().listen(cellPosition -> draw(boardViewModel.getBoard().get()));
 
         this.canvas = new Canvas(400, 400);
         this.canvas.setOnMousePressed(this::handleDraw);
@@ -86,8 +83,8 @@ public class SimulationCanvas extends Pane {
         this.drawSimulation(board);
 
 
-        if(editorViewModel.getCursorPosition().isPresent()){
-            CellPosition cursor = editorViewModel.getCursorPosition().get();
+        if(boardViewModel.getCursorPosition().isPresent()){
+            CellPosition cursor = boardViewModel.getCursorPosition().get();
             g.setFill(new Color(0.3, 0.3, 0.3, 0.5));
             g.fillRect(cursor.getX(), cursor.getY(), 1, 1);
         }

@@ -1,6 +1,5 @@
 package com.mycompany.gameoflifesimulator.gol.util;
 
-import com.mycompany.gameoflifesimulator.gol.viewModel.SimpleChangeListener;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

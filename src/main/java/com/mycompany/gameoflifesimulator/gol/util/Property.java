@@ -1,7 +1,5 @@
 package com.mycompany.gameoflifesimulator.gol.util;
 
-import com.mycompany.gameoflifesimulator.gol.viewModel.SimpleChangeListener;
-
 import java.util.LinkedList;
 import java.util.List;
 

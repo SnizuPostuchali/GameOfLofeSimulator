@@ -57,7 +57,7 @@
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.8</version>
         <configuration>
-          <mainClass>com.mycompany.gameoflifesimulator.App</mainClass>
+          <mainClass>com.mycompany.gameoflifesimulator.gol.App</mainClass>
         </configuration>
         <executions>
           <execution>
