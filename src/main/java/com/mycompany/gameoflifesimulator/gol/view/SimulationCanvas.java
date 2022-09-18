@@ -4,7 +4,7 @@ import com.mycompany.gameoflifesimulator.gol.model.Board;
 import com.mycompany.gameoflifesimulator.gol.model.CellPosition;
 import com.mycompany.gameoflifesimulator.gol.model.CellState;
 import com.mycompany.gameoflifesimulator.gol.util.event.EventBus;
-import com.mycompany.gameoflifesimulator.gol.logic.BoardEvent;
+import com.mycompany.gameoflifesimulator.gol.logic.editor.BoardEvent;
 import com.mycompany.gameoflifesimulator.gol.viewModel.BoardViewModel;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;

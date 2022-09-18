@@ -1,7 +1,7 @@
 package com.mycompany.gameoflifesimulator.gol.view;
 
-import com.mycompany.gameoflifesimulator.gol.logic.DrawModeEvent;
-import com.mycompany.gameoflifesimulator.gol.logic.SimulatorEvent;
+import com.mycompany.gameoflifesimulator.gol.logic.editor.DrawModeEvent;
+import com.mycompany.gameoflifesimulator.gol.logic.simulator.SimulatorEvent;
 import com.mycompany.gameoflifesimulator.gol.model.*;
 import com.mycompany.gameoflifesimulator.gol.util.event.EventBus;
 import javafx.event.ActionEvent;

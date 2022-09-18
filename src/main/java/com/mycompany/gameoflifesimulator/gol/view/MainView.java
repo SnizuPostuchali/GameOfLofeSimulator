@@ -1,6 +1,6 @@
 package com.mycompany.gameoflifesimulator.gol.view;
 
-import com.mycompany.gameoflifesimulator.gol.logic.DrawModeEvent;
+import com.mycompany.gameoflifesimulator.gol.logic.editor.DrawModeEvent;
 import com.mycompany.gameoflifesimulator.gol.model.CellState;
 import com.mycompany.gameoflifesimulator.gol.util.event.EventBus;
 import javafx.scene.input.KeyCode;

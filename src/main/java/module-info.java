@@ -9,4 +9,6 @@ module com.mycompany.gameoflifesimulator {
     exports com.mycompany.gameoflifesimulator.gol.view;
     exports com.mycompany.gameoflifesimulator.gol.logic;
     exports com.mycompany.gameoflifesimulator.gol;
+    exports com.mycompany.gameoflifesimulator.gol.logic.editor;
+    exports com.mycompany.gameoflifesimulator.gol.logic.simulator;
 }

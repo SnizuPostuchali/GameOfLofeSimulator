@@ -1,4 +1,4 @@
-package com.mycompany.gameoflifesimulator.gol.logic;
+package com.mycompany.gameoflifesimulator.gol.logic.editor;
 
 import com.mycompany.gameoflifesimulator.gol.model.CellPosition;
 import com.mycompany.gameoflifesimulator.gol.util.event.Event;
